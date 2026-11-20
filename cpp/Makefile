@@ -2,8 +2,8 @@ CXX ?= clang++
 CXXFLAGS ?= -std=c++20 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -Wdouble-promotion -O2 -Iinclude -fsanitize=address,undefined -fno-omit-frame-pointer -MMD -MP
 LDFLAGS ?= -fsanitize=address,undefined
 
-SRC_DIRS := src/domain src/commitments src/engine src/adversary src/proof src/proof/constraints src/proof/recursive src/simulator src/marketdata
-SRCS := $(wildcard src/domain/*.cpp src/commitments/*.cpp src/engine/*.cpp src/adversary/*.cpp src/proof/*.cpp src/proof/constraints/*.cpp src/proof/recursive/*.cpp src/simulator/*.cpp src/marketdata/*.cpp)
+SRC_DIRS := src/domain src/commitments src/engine src/adversary src/proof src/proof/constraints src/proof/recursive src/simulator src/marketdata src/continuous
+SRCS := $(wildcard src/domain/*.cpp src/commitments/*.cpp src/engine/*.cpp src/adversary/*.cpp src/proof/*.cpp src/proof/constraints/*.cpp src/proof/recursive/*.cpp src/simulator/*.cpp src/marketdata/*.cpp src/continuous/*.cpp)
 OBJS := $(SRCS:.cpp=.o)
 
 # Benchmarks build without sanitizers: ASan and UBSan inflate timings by a
