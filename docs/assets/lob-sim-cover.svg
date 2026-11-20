@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 380" width="1120" height="380" role="img" aria-labelledby="title desc">
+<title id="title">lob-sim</title><desc id="desc">lob-sim. Diagram of bid and ask depth stepping away from the spread. The chart is illustrative.</desc>
+<defs>
+ <radialGradient id="light" cx="76%" cy="55%" r="77%"><stop stop-color="#17694f" stop-opacity=".5"/><stop offset="1" stop-color="#0a1920" stop-opacity="0"/></radialGradient>
+ <pattern id="grid" width="25" height="25" patternUnits="userSpaceOnUse"><path d="M25 0H0V25" fill="none" stroke="#fff" stroke-opacity=".075"/></pattern>
+</defs>
+<rect width="1120" height="380" rx="24" fill="#0a1920"/><rect width="1120" height="380" rx="24" fill="url(#light)"/>
+<rect x="560" y="43" width="518" height="294" rx="12" fill="#111420" fill-opacity=".35" stroke="#fff" stroke-opacity=".15"/><rect x="568" y="49" width="502" height="254" rx="8" fill="url(#grid)"/>
+<g font-family="ui-monospace,SFMono-Regular,Consolas,monospace">
+ <text x="46" y="82" fill="#a5f6d2" font-size="15" font-weight="600" letter-spacing="1.35">C++20  /  PYTHON  /  MARKET MICROSTRUCTURE</text>
+ 
+  <defs>
+    <linearGradient id="bid" x2="0" y2="1"><stop stop-color="#71f3c5" stop-opacity=".29"/><stop offset="1" stop-color="#71f3c5" stop-opacity=".03"/></linearGradient>
+    <linearGradient id="ask" x2="0" y2="1"><stop stop-color="#ffc090" stop-opacity=".31"/><stop offset="1" stop-color="#ffc090" stop-opacity=".03"/></linearGradient>
+  </defs>
+  <text x="585" y="80" fill="#9ddcc6" font-size="16" letter-spacing="2.5">RESTING BID</text>
+  <text x="1031" y="80" text-anchor="end" fill="#ffd1aa" font-size="16" letter-spacing="2.5">RESTING ASK</text>
+  <path d="M583 296V115H635V144H673V178H711V205H750V239H787V296Z" fill="url(#bid)"/>
+  <path d="M829 296V258H864V223H907V190H949V151H992V119H1036V296Z" fill="url(#ask)"/>
+  <path d="M583 115H635V144H673V178H711V205H750V239H787" fill="none" stroke="#83f6ce" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M829 258H864V223H907V190H949V151H992V119H1036" fill="none" stroke="#ffc492" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M808 100V297" stroke="#d0e6e0" stroke-opacity=".58" stroke-dasharray="3 6"/>
+  <circle cx="787" cy="239" r="4" fill="#a5f6d2"/><circle cx="829" cy="258" r="4" fill="#ffd3a7"/>
+  <path d="M581 296H1038" stroke="#c0e0d6" stroke-opacity=".32"/>
+  <text x="809" y="325" text-anchor="middle" fill="#c0d8d4" font-size="16" letter-spacing="2.3">PRICE TICKS</text>
+</g>
+<g font-family="system-ui,-apple-system,Segoe UI,sans-serif" fill="#e9fff5">
+ <text x="41" y="194" font-size="96" font-weight="750" letter-spacing="-6">lob-sim</text>
+ <text x="47" y="249" font-size="27" font-weight="470" fill="#a5f6d2">Deterministic execution<tspan x="47" dy="36">with a place in the queue.</tspan></text>
+</g>
+<path d="M47 326h81" stroke="#a5f6d2" stroke-width="3" stroke-linecap="round"/>
+</svg>

@@ -5,11 +5,16 @@ build-backend = "scikit_build_core.build"
 [project]
 name = "lob_sim"
 version = "1.0.0rc1"
-description = "FairCross deterministic limit order book and queue-aware policy environment"
+description = "Deterministic C++20 limit order book, event replay, and queue-aware Python environment"
 readme = "docs/LOB_SIM.md"
 requires-python = ">=3.10"
 license = {file = "LICENSE"}
 dependencies = ["numpy>=1.26"]
+
+[project.urls]
+Repository = "https://github.com/rishixgamer/lob-sim"
+Documentation = "https://github.com/rishixgamer/lob-sim/blob/main/docs/LOB_SIM.md"
+Issues = "https://github.com/rishixgamer/lob-sim/issues"
 
 [tool.scikit-build]
 cmake.source-dir = "python"

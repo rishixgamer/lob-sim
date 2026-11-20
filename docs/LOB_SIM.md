@@ -1,4 +1,4 @@
-# FairCross lob-sim v1.0 release candidate
+# lob-sim v1.0 release candidate
 
 Lob-sim is a single-instrument continuous matching engine and a Python
 environment for policies that use depth, FIFO queue position, and execution
