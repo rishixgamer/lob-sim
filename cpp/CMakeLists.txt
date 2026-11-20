@@ -79,6 +79,8 @@ set(FAIRCROSS_CORE_SOURCES
     src/marketdata/replay.cpp
     src/marketdata/book.cpp
     src/marketdata/bridge.cpp
+    src/continuous/event.cpp
+    src/continuous/order_book.cpp
 )
 
 add_library(faircross_core STATIC ${FAIRCROSS_CORE_SOURCES})

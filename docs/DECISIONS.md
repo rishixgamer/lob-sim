@@ -422,3 +422,57 @@ evidence from the actual FairCross relation.
 
 **Reconsider when:** a candidate passes the selection evidence listed in the backend evaluation and
 the repository gate reproduces its results.
+
+## ADR-019: native continuous event contract and Level-3 order lifecycle
+
+**Status:** accepted
+
+**Decision:** Expose `faircross::continuous::Event` and `OrderBook` under
+`cpp/include/faircross/continuous/`. A book instance is one single-instrument session.
+The continuous API uses the existing domain `OrderId` (uint64), `Side` (Buy/Sell), and `Qty`
+(uint64 lots), plus `PriceTicks` (int64 ticks) and `TimestampNs` (uint64 nanoseconds in the
+caller's session clock). All ID and timestamp values, including zero, are valid.
+`Event::create(type, id, timestamp, qty, price, side)` checks raw integer fields before
+unsigned conversion and returns a validated event or a typed `Status`. The factory also
+accepts the domain `OrderId` and `Qty` types. Provide price as an integer tick count or a
+typed `std::optional<PriceTicks>`.
+
+| MsgType | ID | Qty in lots | Price in ticks | Side |
+| --- | --- | --- | --- | --- |
+| New | Unused session ID | Positive initial remaining quantity | Required and positive | Required |
+| Cancel | Live order ID | Positive quantity to remove, up to the remaining quantity | Omitted | Omitted |
+| Modify | Live order ID | Positive replacement remaining quantity | Required and positive | Omitted (inherit the order side) |
+| Market | Incoming order ID | Positive requested quantity | Omitted | Required |
+
+Every event requires a timestamp. The book applies events in submission order. It stores the most
+recent New or Modify timestamp on each resting order. Partial cancellation retains that timestamp.
+The lifecycle book accepts New, Cancel, and Modify. It returns `UnsupportedEvent` for a validated
+Market event and leaves its ID reusable. Matching, fills, and queue priority belong to the matching
+engine. The batch auction and ITCH reconstruction keep their existing types, entry points, and
+semantics.
+
+New establishes an individual resting order and increases the aggregate quantity at its side and
+price. Modify replaces the remaining quantity and price under the same ID. Cancel removes quantity
+and retires the ID when its remaining quantity reaches zero. Empty price levels are removed.
+`find` returns the live order if present and `level_qty` returns the total remaining lots, or zero
+for an absent level. Live and closed IDs are both reserved for the session. A closed order retains
+only its 64-bit ID in an exact hash set, with no retained order record or price-level entry.
+
+Cancel and Modify distinguish `NotFound` for an unused ID from `AlreadyClosed` for a retired ID.
+New returns `DuplicateOrderId` for either a live or closed ID. The event factory reports invalid
+fields. The book reports over-cancellation as `InvalidQuantity` and level addition beyond the
+uint64 limit as `Overflow`. All typed rejections preserve live orders, level quantities, and
+retired IDs. Resource exhaustion propagates as an allocation exception.
+
+**Alternatives considered:** extend the ITCH reconstruction API, retain full closed orders, or
+allow reuse of deleted IDs.
+
+**Rationale:** Exact retirement distinguishes stale messages from unknown IDs without retaining
+closed-order payloads. Keeping the native API separate preserves the existing replay and
+batch callers.
+
+**Evidence:** `cpp/tests/test_continuous_order_book.cpp` covers field validation, live and retired
+IDs, partial cancellation, level updates, and atomic rejection at numeric boundaries.
+
+**Reconsider when:** measured session workloads show the exact closed-ID set needs a different
+representation.
