@@ -1,0 +1,18 @@
+[build-system]
+requires = ["scikit-build-core>=0.11,<2", "nanobind>=2.4,<4"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "lob_sim"
+version = "1.0.0rc1"
+description = "FairCross deterministic limit order book and queue-aware policy environment"
+readme = "docs/LOB_SIM.md"
+requires-python = ">=3.10"
+license = {file = "LICENSE"}
+dependencies = ["numpy>=1.26"]
+
+[tool.scikit-build]
+cmake.source-dir = "python"
+cmake.version = ">=3.24"
+wheel.packages = ["python/lob_sim"]
+sdist.exclude = ["/experiments/results", "/manual"]

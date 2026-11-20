@@ -28,6 +28,13 @@ research model, adversarial tests, and reproducible experiments around it.
 
 C++20 under [`cpp/`](cpp/) is the sole source of market semantics.
 
+## Continuous limit order book
+
+The lob-sim candidate adds a C++20 price-time matcher, CSV and binary event
+replay, and the queue-aware Python `lob_sim.BookEnv`. The
+[installation and API guide](docs/LOB_SIM.md) includes an installed-package
+quickstart and native performance reproduction commands.
+
 ## Verification you can reproduce
 
 ```bash

@@ -11,3 +11,11 @@ experiments/results/*.tmp
 **/*.o
 **/*.d
 **/*.bench.o
+
+# Python build and test artifacts
+/dist/
+/build/
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/

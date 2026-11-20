@@ -18,6 +18,8 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Verify C++ headers are self-contained
         run: |
           while IFS= read -r header; do
@@ -28,3 +30,115 @@ jobs:
         env:
           CXX: clang++
         run: ./scripts/check.sh
+
+  lob-sim:
+    name: lob-sim / ${{ matrix.arch }} / Python ${{ matrix.python }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { runner: ubuntu-24.04, arch: x86_64, python: "3.10" }
+          - { runner: ubuntu-24.04, arch: x86_64, python: "3.12" }
+          - { runner: ubuntu-24.04-arm, arch: aarch64, python: "3.10" }
+          - { runner: ubuntu-24.04-arm, arch: aarch64, python: "3.12" }
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 20
+    env:
+      CXX: clang++
+      CMAKE_BUILD_PARALLEL_LEVEL: "2"
+      UBSAN_OPTIONS: halt_on_error=1
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Build native sanitizer tests
+        run: |
+          test "$(uname -m)" = "${{ matrix.arch }}"
+          cmake -S cpp -B cpp/build/lob-sanitize -DCMAKE_BUILD_TYPE=RelWithDebInfo -DFAIRCROSS_ENABLE_ASAN=ON
+          cmake --build cpp/build/lob-sanitize --target faircross_lob_tests
+      - name: Build candidate sdist and wheel
+        run: |
+          python -m pip install build
+          python -m build
+          (cd dist && sha256sum *.tar.gz *.whl >SHA256SUMS)
+      - name: Install the sdist and wheel and run the installed quickstart
+        run: |
+          for package in dist/*.tar.gz dist/*.whl; do
+            case "$package" in
+              *.whl) flavor=wheel ;;
+              *) flavor=source ;;
+            esac
+            venv="$RUNNER_TEMP/lob-$flavor"
+            python -m venv "$venv"
+            "$venv/bin/python" -m pip install "$package"
+            for format in csv binary; do
+              if [[ "$format" == csv ]]; then extension=csv; else extension=bin; fi
+              "$venv/bin/python" -I -m lob_sim --replay "fixtures/continuous/session.$extension" --format "$format"
+            done
+          done
+      - name: Time native and Python test execution
+        run: |
+          python scripts/check_lob_sim.py --native cpp/build/lob-sanitize/faircross_lob_tests \
+            --python "$RUNNER_TEMP/lob-wheel/bin/python" --output dist/tests.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lob-sim-packages-${{ matrix.arch }}-py${{ matrix.python }}
+          path: dist/
+          if-no-files-found: error
+          retention-days: 90
+
+  lob-sim-performance:
+    name: lob-sim performance / ${{ matrix.arch }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { runner: ubuntu-24.04, arch: x86_64 }
+          - { runner: ubuntu-24.04-arm, arch: aarch64 }
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 15
+    env:
+      CXX: clang++
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Measure release budgets
+        run: |
+          test "$(uname -m)" = "${{ matrix.arch }}"
+          python3 scripts/benchmark_lob_sim.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lob-sim-performance-${{ matrix.arch }}
+          path: cpp/build/lob-evidence/
+          if-no-files-found: error
+          retention-days: 90
+
+  lob-sim-qualification:
+    name: lob-sim release qualification
+    needs: [test, lob-sim, lob-sim-performance]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      CANDIDATE_REVISION: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ env.CANDIDATE_REVISION }}
+      - uses: actions/download-artifact@v4
+        with:
+          path: cpp/build/lob-artifacts
+          pattern: lob-sim-*
+      - name: Verify candidate evidence and record the readiness verdict
+        run: python3 scripts/qualify_lob_sim.py cpp/build/lob-artifacts cpp/build/lob-qualification
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lob-sim-qualification
+          path: cpp/build/lob-qualification/
+          if-no-files-found: error
+          retention-days: 90
