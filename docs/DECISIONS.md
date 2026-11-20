@@ -476,3 +476,42 @@ IDs, partial cancellation, level updates, and atomic rejection at numeric bounda
 
 **Reconsider when:** measured session workloads show the exact closed-ID set needs a different
 representation.
+
+## ADR-020: continuous price-time execution and normalized event replay
+
+**Status:** accepted
+
+**Decision:** `MatchingEngine` owns an `OrderBook` and submits one validated
+event at a time. Crossing uses the best eligible resting price; FIFO within
+a price follows submission order, including equal timestamps. Every fill is
+recorded once with both IDs, the taker's side and timestamp, and the resting
+price. Limit remainders rest and market remainders are explicitly canceled.
+A market ID is consumed even with no fills.
+
+Filling or canceling the last lot retires its ID. Partial fills and partial
+cancels preserve queue position. A same-price modify that leaves size
+unchanged or reduces it retains FIFO position and timestamp. A size increase
+or any price change replaces the remaining quantity, can cross at the new
+limit, and joins the destination queue at the tail if anything remains.
+Typed engine rejections leave levels, queues, and ID availability unchanged.
+
+The book stores live queues at each price and retains closed IDs in exact
+64-ID bitmap blocks. This supersedes the per-ID hash set in ADR-019 and
+preserves exact lookup, including sparse and extreme IDs. The raw lifecycle
+interface still records all modify timestamps and accepts price updates
+without crossing. Its successful modify operation appends to the destination
+queue.
+
+Normalized CSV and binary readers submit valid records in file order.
+Timestamp ties stay in file order and regressions stop replay before the
+failed record. Syntax, format, and event-factory errors stop replay with a
+record location. Business-rule rejections are reported per event and replay
+continues.
+
+**Rationale:** FIFO keeps execution deterministic and exposes queue position to
+policy code. Bitmap retirement limits memory on sustained sequential-ID
+workloads while preserving exact duplicate and stale-ID detection. Separating
+event replay from ITCH reconstruction preserves the roles of both paths.
+
+**Evidence:** [Lob-sim contract and reproduction guide](LOB_SIM.md),
+`cpp/tests/test_continuous_matching.cpp`, and `cpp/tests/test_continuous_replay.cpp`.

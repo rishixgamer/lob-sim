@@ -79,12 +79,12 @@ set(FAIRCROSS_CORE_SOURCES
     src/marketdata/replay.cpp
     src/marketdata/book.cpp
     src/marketdata/bridge.cpp
-    src/continuous/event.cpp
-    src/continuous/order_book.cpp
 )
 
+add_subdirectory(src/continuous)
 add_library(faircross_core STATIC ${FAIRCROSS_CORE_SOURCES})
 target_include_directories(faircross_core PUBLIC include)
+target_link_libraries(faircross_core PUBLIC faircross_continuous)
 
 # Executable CLI
 add_executable(faircross_cli src/cli/main.cpp)
@@ -98,3 +98,14 @@ target_link_libraries(faircross_tests PRIVATE faircross_core)
 
 enable_testing()
 add_test(NAME FairCrossAllTests COMMAND faircross_tests)
+
+set_tests_properties(FairCrossAllTests PROPERTIES WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/..")
+
+file(GLOB CONTINUOUS_TEST_SOURCES "tests/test_continuous_*.cpp")
+add_executable(faircross_lob_tests EXCLUDE_FROM_ALL tests/main.cpp ${CONTINUOUS_TEST_SOURCES})
+target_link_libraries(faircross_lob_tests PRIVATE faircross_continuous)
+
+if(UNIX)
+    add_executable(faircross_lob_bench EXCLUDE_FROM_ALL bench/continuous/main.cpp)
+    target_link_libraries(faircross_lob_bench PRIVATE faircross_continuous)
+endif()

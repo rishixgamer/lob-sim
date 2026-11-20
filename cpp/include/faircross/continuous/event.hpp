@@ -17,7 +17,7 @@ using faircross::Side;
 using PriceTicks = std::int64_t;
 using TimestampNs = std::uint64_t;
 
-enum class MsgType : std::uint8_t { New, Cancel, Modify, Market };
+enum class MsgType : std::uint8_t { New = 0, Cancel = 1, Modify = 2, Market = 3 };
 
 enum class Status : std::uint8_t {
     Ok,
