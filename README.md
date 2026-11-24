@@ -1,6 +1,8 @@
 # lob-sim
 
-**Replay the market. Test your place in the queue.** A deterministic C++20 limit order book with price-time FIFO, CSV and binary replay, and a queue-aware Python environment.
+A C++20 limit order book with price-time priority. Replay CSV and binary event streams, or use the Python environment to test a policy that observes its queue position.
+
+In a 10-million-event synthetic workload on an Apple M5 Pro, median p99.9 order-processing latency ranged from 417 ns to 916 ns across three book depths. The report includes event-level results, run-to-run variation, and a stack profile. [Latency benchmarks](docs/benchmarks/m5-tail-latency.md)
 
 [Try the example](#quickstart) · [API and replay formats](docs/LOB_SIM.md) · [Candidate benchmarks and wheels](https://github.com/rishixgamer/lob-sim/actions/runs/44683503826) · [Project site](https://rishixgamer.github.io/lob-sim/)
 
@@ -43,5 +45,3 @@ Single-threaded native matcher on a seeded synthetic stream. The [candidate run]
 ---
 
 [v1.0 release candidate](docs/LOB_SIM.md#v10-release-notes) · [MIT License](LICENSE) · [Issues](https://github.com/rishixgamer/lob-sim/issues)
-
-If lob-sim helps your research, [star the repository](https://github.com/rishixgamer/lob-sim).
