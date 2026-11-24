@@ -1,8 +1,8 @@
-# lob-sim v1.0 release candidate
+# lob-sim v1.0.0
 
 Lob-sim is a single-instrument continuous matching engine and a Python
 environment for policies that use depth, FIFO queue position, and execution
-feedback. This candidate builds a Python distribution at version `1.0.0rc1`.
+feedback. The Python distribution uses version `1.0.0`.
 
 ## Install and run
 
@@ -28,7 +28,7 @@ The example quotes a buy, receives a partial fill, cancels the remainder, and
 finishes the four-step episode before replaying a fixture. To build distributable
 artifacts, run `python -m pip install build` followed by `python -m build`.
 Install the `.whl` matching your architecture and CPython in a clean virtual
-environment with `python -m pip install /path/to/candidate.whl`. The
+environment with `python -m pip install /path/to/lob_sim-1.0.0-wheel.whl`. The
 `.tar.gz` source distribution is also installable with pip.
 
 ## C++20 interface
@@ -302,3 +302,16 @@ artifact and workflow summary.
   IDs use more memory than the sequential IDs in the reference workload.
   The simulator models one instrument, with no exchange connectivity,
   latency model, fees, margin, or self-trade prevention.
+
+## Prepare the GitHub release
+
+After review and merge, use the verification run for the exact commit on
+`main`. Confirm the `lob-sim-qualification` verdict and verify the
+`SHA256SUMS` from each packaging job. The four wheels target Ubuntu 24.04
+on x86_64 and ARM64, with CPython 3.10 and 3.12. Compare the source archives
+before selecting one for the release.
+
+Use the verified commit for the `v1.0.0` tag. Attach the four tested wheels,
+the source archive, their checksums, and the qualification verdict. Include
+the supported environments and the simulation limits above in the release
+description.
