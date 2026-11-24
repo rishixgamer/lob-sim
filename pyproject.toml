@@ -4,7 +4,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "lob_sim"
-version = "1.0.0rc1"
+version = "1.0.0"
 description = "Deterministic C++20 limit order book, event replay, and queue-aware Python environment"
 readme = "docs/LOB_SIM.md"
 requires-python = ">=3.10"

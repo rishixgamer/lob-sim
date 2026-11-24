@@ -44,4 +44,4 @@ Single-threaded native matcher on a seeded synthetic stream. The [candidate run]
 
 ---
 
-[v1.0 release candidate](docs/LOB_SIM.md#v10-release-notes) · [MIT License](LICENSE) · [Issues](https://github.com/rishixgamer/lob-sim/issues)
+[v1.0 release notes](docs/LOB_SIM.md#v10-release-notes) · [MIT License](LICENSE) · [Issues](https://github.com/rishixgamer/lob-sim/issues)

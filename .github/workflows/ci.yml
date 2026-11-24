@@ -62,6 +62,7 @@ jobs:
       - name: Build candidate sdist and wheel
         run: |
           python -m pip install build
+          export SOURCE_DATE_EPOCH="$(git log -1 --format=%ct)"
           python -m build
           (cd dist && sha256sum *.tar.gz *.whl >SHA256SUMS)
       - name: Install the sdist and wheel and run the installed quickstart
