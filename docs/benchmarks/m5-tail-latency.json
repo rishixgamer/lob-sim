@@ -1,0 +1,672 @@
+{
+  "base_revision": "c6ffa4a98ea53f16c6cf032b065897e7a11aa5c7",
+  "bench_source_sha256": "248b4d8bc230d7b25871d70a5d946801df2d0ea09dd0b390bf92ec6968088f40",
+  "recorded_date": "2026-11-24",
+  "cpu": "Apple M5 Pro",
+  "memory_bytes": 51539607552,
+  "os": "macOS 27.2.1 (26B131)",
+  "compiler": "Apple clang version 21.0.0 (clang-2100.4.1.1)",
+  "build": "Release / sanitizers off",
+  "background": "Interactive Mac with an MLX benchmark active during the measurement window.",
+  "records": [
+    {
+      "levels": 8,
+      "trial": 1,
+      "events": 10000000,
+      "seed": 20261120,
+      "elapsed_seconds": 1.409797084,
+      "events_per_second": 7093219.38135,
+      "peak_rss_bytes": 6127616,
+      "mix": {
+        "new": 2121711,
+        "cancel": 2919769,
+        "modify": 4158991,
+        "market": 799529,
+        "already_closed_cancels": 499194,
+        "retired_ids": 2921190,
+        "fills": 1787228,
+        "lots_traded": 5199169
+      },
+      "depth": {
+        "slots": 64,
+        "level_samples": 9766,
+        "mean_orders": 48.4040181,
+        "max_orders": 64,
+        "mean_bid_levels": 7.73970919517,
+        "mean_ask_levels": 8.22629531026,
+        "max_bid_levels": 9,
+        "max_ask_levels": 9
+      },
+      "matching_latency_ns": {
+        "samples": 78257,
+        "p50": 125,
+        "p95": 250,
+        "p99": 500,
+        "p999": 750,
+        "max": 7417
+      },
+      "matching_latency_by_type_ns": {
+        "new": {
+          "samples": 16756,
+          "p50": 125,
+          "p95": 208,
+          "p99": 250,
+          "p999": 292,
+          "max": 2792
+        },
+        "cancel": {
+          "samples": 22862,
+          "p50": 42,
+          "p95": 125,
+          "p99": 167,
+          "p999": 250,
+          "max": 334
+        },
+        "modify": {
+          "samples": 32335,
+          "p50": 125,
+          "p95": 167,
+          "p99": 209,
+          "p999": 291,
+          "max": 7417
+        },
+        "market": {
+          "samples": 6304,
+          "p50": 292,
+          "p95": 584,
+          "p99": 792,
+          "p999": 1041,
+          "max": 6917
+        }
+      }
+    },
+    {
+      "levels": 8,
+      "trial": 2,
+      "events": 10000000,
+      "seed": 20261120,
+      "elapsed_seconds": 0.76912,
+      "events_per_second": 13001872.2696,
+      "peak_rss_bytes": 6127616,
+      "mix": {
+        "new": 2121711,
+        "cancel": 2919769,
+        "modify": 4158991,
+        "market": 799529,
+        "already_closed_cancels": 499194,
+        "retired_ids": 2921190,
+        "fills": 1787228,
+        "lots_traded": 5199169
+      },
+      "depth": {
+        "slots": 64,
+        "level_samples": 9766,
+        "mean_orders": 48.4040181,
+        "max_orders": 64,
+        "mean_bid_levels": 7.73970919517,
+        "mean_ask_levels": 8.22629531026,
+        "max_bid_levels": 9,
+        "max_ask_levels": 9
+      },
+      "matching_latency_ns": {
+        "samples": 78257,
+        "p50": 42,
+        "p95": 125,
+        "p99": 250,
+        "p999": 417,
+        "max": 17375
+      },
+      "matching_latency_by_type_ns": {
+        "new": {
+          "samples": 16756,
+          "p50": 83,
+          "p95": 125,
+          "p99": 125,
+          "p999": 250,
+          "max": 7084
+        },
+        "cancel": {
+          "samples": 22862,
+          "p50": 42,
+          "p95": 84,
+          "p99": 84,
+          "p999": 208,
+          "max": 14917
+        },
+        "modify": {
+          "samples": 32335,
+          "p50": 42,
+          "p95": 84,
+          "p99": 125,
+          "p999": 250,
+          "max": 7750
+        },
+        "market": {
+          "samples": 6304,
+          "p50": 166,
+          "p95": 333,
+          "p99": 417,
+          "p999": 708,
+          "max": 17375
+        }
+      }
+    },
+    {
+      "levels": 8,
+      "trial": 3,
+      "events": 10000000,
+      "seed": 20261120,
+      "elapsed_seconds": 0.656230291,
+      "events_per_second": 15238552.8939,
+      "peak_rss_bytes": 6144000,
+      "mix": {
+        "new": 2121711,
+        "cancel": 2919769,
+        "modify": 4158991,
+        "market": 799529,
+        "already_closed_cancels": 499194,
+        "retired_ids": 2921190,
+        "fills": 1787228,
+        "lots_traded": 5199169
+      },
+      "depth": {
+        "slots": 64,
+        "level_samples": 9766,
+        "mean_orders": 48.4040181,
+        "max_orders": 64,
+        "mean_bid_levels": 7.73970919517,
+        "mean_ask_levels": 8.22629531026,
+        "max_bid_levels": 9,
+        "max_ask_levels": 9
+      },
+      "matching_latency_ns": {
+        "samples": 78257,
+        "p50": 42,
+        "p95": 125,
+        "p99": 209,
+        "p999": 334,
+        "max": 20583
+      },
+      "matching_latency_by_type_ns": {
+        "new": {
+          "samples": 16756,
+          "p50": 42,
+          "p95": 84,
+          "p99": 125,
+          "p999": 208,
+          "max": 4875
+        },
+        "cancel": {
+          "samples": 22862,
+          "p50": 41,
+          "p95": 83,
+          "p99": 84,
+          "p999": 125,
+          "max": 20583
+        },
+        "modify": {
+          "samples": 32335,
+          "p50": 42,
+          "p95": 84,
+          "p99": 84,
+          "p999": 167,
+          "max": 6375
+        },
+        "market": {
+          "samples": 6304,
+          "p50": 125,
+          "p95": 291,
+          "p99": 375,
+          "p999": 459,
+          "max": 3583
+        }
+      }
+    },
+    {
+      "levels": 64,
+      "trial": 1,
+      "events": 10000000,
+      "seed": 20261120,
+      "elapsed_seconds": 1.870076125,
+      "events_per_second": 5347375.89894,
+      "peak_rss_bytes": 6324224,
+      "mix": {
+        "new": 2115256,
+        "cancel": 2922757,
+        "modify": 4163187,
+        "market": 798800,
+        "already_closed_cancels": 500087,
+        "retired_ids": 2913685,
+        "fills": 1777632,
+        "lots_traded": 5193899
+      },
+      "depth": {
+        "slots": 512,
+        "level_samples": 9766,
+        "mean_orders": 387.5665619,
+        "max_orders": 440,
+        "mean_bid_levels": 57.7106287119,
+        "mean_ask_levels": 58.2498464059,
+        "max_bid_levels": 65,
+        "max_ask_levels": 65
+      },
+      "matching_latency_ns": {
+        "samples": 78257,
+        "p50": 125,
+        "p95": 292,
+        "p99": 542,
+        "p999": 875,
+        "max": 26458
+      },
+      "matching_latency_by_type_ns": {
+        "new": {
+          "samples": 16522,
+          "p50": 167,
+          "p95": 291,
+          "p99": 334,
+          "p999": 417,
+          "max": 9292
+        },
+        "cancel": {
+          "samples": 22919,
+          "p50": 83,
+          "p95": 167,
+          "p99": 209,
+          "p999": 292,
+          "max": 26458
+        },
+        "modify": {
+          "samples": 32673,
+          "p50": 125,
+          "p95": 209,
+          "p99": 292,
+          "p999": 375,
+          "max": 10584
+        },
+        "market": {
+          "samples": 6143,
+          "p50": 333,
+          "p95": 667,
+          "p99": 875,
+          "p999": 1083,
+          "max": 1250
+        }
+      }
+    },
+    {
+      "levels": 64,
+      "trial": 2,
+      "events": 10000000,
+      "seed": 20261120,
+      "elapsed_seconds": 0.825620167,
+      "events_per_second": 12112107.2373,
+      "peak_rss_bytes": 6324224,
+      "mix": {
+        "new": 2115256,
+        "cancel": 2922757,
+        "modify": 4163187,
+        "market": 798800,
+        "already_closed_cancels": 500087,
+        "retired_ids": 2913685,
+        "fills": 1777632,
+        "lots_traded": 5193899
+      },
+      "depth": {
+        "slots": 512,
+        "level_samples": 9766,
+        "mean_orders": 387.5665619,
+        "max_orders": 440,
+        "mean_bid_levels": 57.7106287119,
+        "mean_ask_levels": 58.2498464059,
+        "max_bid_levels": 65,
+        "max_ask_levels": 65
+      },
+      "matching_latency_ns": {
+        "samples": 78257,
+        "p50": 83,
+        "p95": 166,
+        "p99": 250,
+        "p999": 458,
+        "max": 21625
+      },
+      "matching_latency_by_type_ns": {
+        "new": {
+          "samples": 16522,
+          "p50": 83,
+          "p95": 125,
+          "p99": 167,
+          "p999": 375,
+          "max": 7000
+        },
+        "cancel": {
+          "samples": 22919,
+          "p50": 42,
+          "p95": 84,
+          "p99": 125,
+          "p999": 292,
+          "max": 8791
+        },
+        "modify": {
+          "samples": 32673,
+          "p50": 83,
+          "p95": 125,
+          "p99": 166,
+          "p999": 333,
+          "max": 13458
+        },
+        "market": {
+          "samples": 6143,
+          "p50": 166,
+          "p95": 292,
+          "p99": 416,
+          "p999": 1042,
+          "max": 21625
+        }
+      }
+    },
+    {
+      "levels": 64,
+      "trial": 3,
+      "events": 10000000,
+      "seed": 20261120,
+      "elapsed_seconds": 0.995954417,
+      "events_per_second": 10040620.1622,
+      "peak_rss_bytes": 6242304,
+      "mix": {
+        "new": 2115256,
+        "cancel": 2922757,
+        "modify": 4163187,
+        "market": 798800,
+        "already_closed_cancels": 500087,
+        "retired_ids": 2913685,
+        "fills": 1777632,
+        "lots_traded": 5193899
+      },
+      "depth": {
+        "slots": 512,
+        "level_samples": 9766,
+        "mean_orders": 387.5665619,
+        "max_orders": 440,
+        "mean_bid_levels": 57.7106287119,
+        "mean_ask_levels": 58.2498464059,
+        "max_bid_levels": 65,
+        "max_ask_levels": 65
+      },
+      "matching_latency_ns": {
+        "samples": 78257,
+        "p50": 83,
+        "p95": 167,
+        "p99": 333,
+        "p999": 500,
+        "max": 38458
+      },
+      "matching_latency_by_type_ns": {
+        "new": {
+          "samples": 16522,
+          "p50": 84,
+          "p95": 167,
+          "p99": 208,
+          "p999": 292,
+          "max": 6500
+        },
+        "cancel": {
+          "samples": 22919,
+          "p50": 42,
+          "p95": 84,
+          "p99": 125,
+          "p999": 250,
+          "max": 6000
+        },
+        "modify": {
+          "samples": 32673,
+          "p50": 83,
+          "p95": 125,
+          "p99": 167,
+          "p999": 292,
+          "max": 28083
+        },
+        "market": {
+          "samples": 6143,
+          "p50": 167,
+          "p95": 375,
+          "p99": 500,
+          "p999": 959,
+          "max": 38458
+        }
+      }
+    },
+    {
+      "levels": 512,
+      "trial": 1,
+      "events": 10000000,
+      "seed": 20261120,
+      "elapsed_seconds": 2.284090125,
+      "events_per_second": 4378110.95567,
+      "peak_rss_bytes": 7045120,
+      "mix": {
+        "new": 2115561,
+        "cancel": 2921905,
+        "modify": 4163559,
+        "market": 798975,
+        "already_closed_cancels": 499296,
+        "retired_ids": 2911408,
+        "fills": 1775051,
+        "lots_traded": 5199288
+      },
+      "depth": {
+        "slots": 4096,
+        "level_samples": 9766,
+        "mean_orders": 3099.610056,
+        "max_orders": 3243,
+        "mean_bid_levels": 448.046999795,
+        "mean_ask_levels": 448.387671513,
+        "max_bid_levels": 477,
+        "max_ask_levels": 479
+      },
+      "matching_latency_ns": {
+        "samples": 78257,
+        "p50": 167,
+        "p95": 375,
+        "p99": 584,
+        "p999": 1375,
+        "max": 47541
+      },
+      "matching_latency_by_type_ns": {
+        "new": {
+          "samples": 16555,
+          "p50": 208,
+          "p95": 334,
+          "p99": 458,
+          "p999": 1375,
+          "max": 33500
+        },
+        "cancel": {
+          "samples": 22726,
+          "p50": 84,
+          "p95": 209,
+          "p99": 334,
+          "p999": 875,
+          "max": 47541
+        },
+        "modify": {
+          "samples": 32627,
+          "p50": 167,
+          "p95": 333,
+          "p99": 458,
+          "p999": 1334,
+          "max": 23375
+        },
+        "market": {
+          "samples": 6349,
+          "p50": 333,
+          "p95": 667,
+          "p99": 958,
+          "p999": 6750,
+          "max": 24000
+        }
+      }
+    },
+    {
+      "levels": 512,
+      "trial": 2,
+      "events": 10000000,
+      "seed": 20261120,
+      "elapsed_seconds": 1.213832833,
+      "events_per_second": 8238366.70762,
+      "peak_rss_bytes": 6995968,
+      "mix": {
+        "new": 2115561,
+        "cancel": 2921905,
+        "modify": 4163559,
+        "market": 798975,
+        "already_closed_cancels": 499296,
+        "retired_ids": 2911408,
+        "fills": 1775051,
+        "lots_traded": 5199288
+      },
+      "depth": {
+        "slots": 4096,
+        "level_samples": 9766,
+        "mean_orders": 3099.610056,
+        "max_orders": 3243,
+        "mean_bid_levels": 448.046999795,
+        "mean_ask_levels": 448.387671513,
+        "max_bid_levels": 477,
+        "max_ask_levels": 479
+      },
+      "matching_latency_ns": {
+        "samples": 78257,
+        "p50": 84,
+        "p95": 208,
+        "p99": 333,
+        "p999": 500,
+        "max": 17667
+      },
+      "matching_latency_by_type_ns": {
+        "new": {
+          "samples": 16555,
+          "p50": 125,
+          "p95": 167,
+          "p99": 209,
+          "p999": 375,
+          "max": 16416
+        },
+        "cancel": {
+          "samples": 22726,
+          "p50": 42,
+          "p95": 125,
+          "p99": 166,
+          "p999": 333,
+          "max": 5417
+        },
+        "modify": {
+          "samples": 32627,
+          "p50": 84,
+          "p95": 167,
+          "p99": 209,
+          "p999": 375,
+          "max": 17667
+        },
+        "market": {
+          "samples": 6349,
+          "p50": 167,
+          "p95": 375,
+          "p99": 459,
+          "p999": 1000,
+          "max": 11667
+        }
+      }
+    },
+    {
+      "levels": 512,
+      "trial": 3,
+      "events": 10000000,
+      "seed": 20261120,
+      "elapsed_seconds": 1.950617,
+      "events_per_second": 5126583.02476,
+      "peak_rss_bytes": 7012352,
+      "mix": {
+        "new": 2115561,
+        "cancel": 2921905,
+        "modify": 4163559,
+        "market": 798975,
+        "already_closed_cancels": 499296,
+        "retired_ids": 2911408,
+        "fills": 1775051,
+        "lots_traded": 5199288
+      },
+      "depth": {
+        "slots": 4096,
+        "level_samples": 9766,
+        "mean_orders": 3099.610056,
+        "max_orders": 3243,
+        "mean_bid_levels": 448.046999795,
+        "mean_ask_levels": 448.387671513,
+        "max_bid_levels": 477,
+        "max_ask_levels": 479
+      },
+      "matching_latency_ns": {
+        "samples": 78257,
+        "p50": 166,
+        "p95": 292,
+        "p99": 500,
+        "p999": 916,
+        "max": 38458
+      },
+      "matching_latency_by_type_ns": {
+        "new": {
+          "samples": 16555,
+          "p50": 208,
+          "p95": 292,
+          "p99": 375,
+          "p999": 750,
+          "max": 38458
+        },
+        "cancel": {
+          "samples": 22726,
+          "p50": 83,
+          "p95": 167,
+          "p99": 250,
+          "p999": 542,
+          "max": 35375
+        },
+        "modify": {
+          "samples": 32627,
+          "p50": 167,
+          "p95": 250,
+          "p99": 333,
+          "p999": 792,
+          "max": 19083
+        },
+        "market": {
+          "samples": 6349,
+          "p50": 291,
+          "p95": 583,
+          "p99": 791,
+          "p999": 1708,
+          "max": 7417
+        }
+      }
+    }
+  ],
+  "profile": {
+    "duration_seconds": 6,
+    "interval_ms": 1,
+    "workload": [
+      130000000,
+      20261120,
+      512
+    ],
+    "source": "macOS sample",
+    "selected_leaf_samples": {
+      "main": 571,
+      "OrderBook::level_qty": 483,
+      "MatchingEngine::execute": 471,
+      "OrderBook::consume": 414,
+      "MatchingEngine::submit": 394,
+      "OrderBook::detach": 333,
+      "MatchingEngine::plan_fills": 275,
+      "OrderBook::depth": 170
+    }
+  }
+}

@@ -279,6 +279,9 @@ time includes workload generation, matching, and sampling. Peak RSS is
 whole-process high-water memory. The budgets are below ten seconds and
 below 256,000,000 bytes for each of the 5 million and 10 million event runs.
 
+The [tail-latency study](benchmarks/m5-tail-latency.md) reports each event type
+at three book depths and includes a separate stack sample.
+
 The verification workflow retains per-platform benchmark JSON, sanitizer
 and Python timing evidence, installable wheels and source distributions,
 SHA-256 checksums, and the candidate verdict for 90 days. The qualification
