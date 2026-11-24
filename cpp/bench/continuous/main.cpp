@@ -29,10 +29,9 @@ using lob::Side;
 using lob::Status;
 using lob::TimestampNs;
 
-constexpr std::size_t levels_per_side = 64;
+constexpr std::size_t default_levels = 64;
+constexpr std::size_t max_levels = 512;
 constexpr std::size_t slots_per_level = 4;
-constexpr std::size_t slots_per_side = levels_per_side * slots_per_level;
-constexpr std::size_t total_slots = 2 * slots_per_side;
 
 Event event(MsgType type, std::uint64_t id, TimestampNs timestamp, std::uint64_t qty,
             std::optional<PriceTicks> price = std::nullopt, std::optional<Side> side = std::nullopt) {
@@ -58,7 +57,9 @@ struct DepthStats {
 
 class Workload {
 public:
-    explicit Workload(std::uint64_t seed) : rng_(seed) {
+    explicit Workload(std::uint64_t seed, std::size_t levels)
+        : rng_(seed), slots_(2 * levels * slots_per_level) {
+        const auto slots_per_side = slots_.size() / 2;
         for (std::size_t i = 0; i < slots_.size(); ++i) {
             const bool buy = i < slots_per_side;
             const auto distance = static_cast<PriceTicks>(i % slots_per_side / slots_per_level);
@@ -137,7 +138,7 @@ private:
     }
 
     faircross::DeterministicRng rng_;
-    std::array<Slot, total_slots> slots_{};
+    std::vector<Slot> slots_;
     Active active_;
     std::uint64_t next_id_ = 1;
     std::uint64_t retired_ = 0;
@@ -154,11 +155,27 @@ std::uint64_t read_integer(const char* arg) {
     return value;
 }
 
-void run(std::uint64_t events, std::uint64_t seed) {
-    Workload workload(seed);
+void write_latencies(std::vector<std::int64_t>& samples) {
+    std::cout << "{\"samples\":" << samples.size();
+    if (!samples.empty()) {
+        std::sort(samples.begin(), samples.end());
+        const auto percentile = [&](std::size_t thousandths) {
+            return samples[(samples.size() * thousandths + 999) / 1000 - 1];
+        };
+        std::cout << ",\"p50\":" << percentile(500) << ",\"p95\":" << percentile(950)
+                  << ",\"p99\":" << percentile(990) << ",\"p999\":" << percentile(999)
+                  << ",\"max\":" << samples.back();
+    }
+    std::cout << '}';
+}
+
+void run(std::uint64_t events, std::uint64_t seed, std::size_t levels) {
+    Workload workload(seed, levels);
+    const auto total_slots = 2 * levels * slots_per_level;
     MatchingEngine engine;
     faircross::DeterministicRng sampler(seed ^ 0x1c4d8c109a67ddf1ULL);
     std::vector<std::int64_t> latency;
+    std::array<std::vector<std::int64_t>, 4> by_type;
     latency.reserve(events / 100);
     DepthStats active_orders, bid_levels, ask_levels;
     std::size_t level_samples = 0;
@@ -170,8 +187,10 @@ void run(std::uint64_t events, std::uint64_t seed) {
         const auto before = sample ? Clock::now() : Clock::time_point{};
         const auto result = engine.submit(input);
         if (sample) {
-            latency.push_back(std::chrono::duration_cast<std::chrono::nanoseconds>(
-                                  Clock::now() - before).count());
+            const auto ns = std::chrono::duration_cast<std::chrono::nanoseconds>(
+                                Clock::now() - before).count();
+            latency.push_back(ns);
+            by_type[static_cast<std::size_t>(input.type())].push_back(ns);
         }
         workload.consume(input, result);
         active_orders.sample(engine.book().active_orders());
@@ -183,10 +202,6 @@ void run(std::uint64_t events, std::uint64_t seed) {
     }
 
     const auto elapsed = std::chrono::duration<double>(Clock::now() - start).count();
-    std::sort(latency.begin(), latency.end());
-    const auto percentile = [&](std::size_t thousandths) {
-        return latency[(latency.size() * thousandths + 999) / 1000 - 1];
-    };
 
     rusage usage{};
     if (getrusage(RUSAGE_SELF, &usage) != 0) throw std::runtime_error("getrusage failed");
@@ -215,18 +230,28 @@ void run(std::uint64_t events, std::uint64_t seed) {
               << ",\"mean_ask_levels\":" << static_cast<double>(ask_levels.sum) / static_cast<double>(level_samples)
               << ",\"max_bid_levels\":" << bid_levels.maximum
               << ",\"max_ask_levels\":" << ask_levels.maximum
-              << "},\"matching_latency_ns\":{\"samples\":" << latency.size()
-              << ",\"p50\":" << percentile(500) << ",\"p95\":" << percentile(950)
-              << ",\"p99\":" << percentile(990) << ",\"p999\":" << percentile(999)
-              << ",\"max\":" << latency.back() << "}}\n";
+              << "},\"matching_latency_ns\":";
+    write_latencies(latency);
+    std::cout << ",\"matching_latency_by_type_ns\":{";
+    const std::array names = {"new", "cancel", "modify", "market"};
+    for (std::size_t i = 0; i < names.size(); ++i) {
+        if (i > 0) std::cout << ',';
+        std::cout << '"' << names[i] << "\":";
+        write_latencies(by_type[i]);
+    }
+    std::cout << "}}\n";
 }
 
 } // namespace
 
 int main(int argc, char** argv) {
     try {
-        if (argc != 3) throw std::invalid_argument("usage: faircross_lob_bench EVENTS SEED");
-        run(read_integer(argv[1]), read_integer(argv[2]));
+        if (argc != 3 && argc != 4) {
+            throw std::invalid_argument("usage: faircross_lob_bench EVENTS SEED [LEVELS]");
+        }
+        const auto levels = argc == 4 ? read_integer(argv[3]) : default_levels;
+        if (levels > max_levels) throw std::invalid_argument("LEVELS must be in [1, 512]");
+        run(read_integer(argv[1]), read_integer(argv[2]), static_cast<std::size_t>(levels));
         return 0;
     } catch (const std::exception& error) {
         std::cerr << error.what() << '\n';
